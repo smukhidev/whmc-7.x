@@ -63,7 +63,8 @@
 		$orderData = mysql_fetch_assoc(select_query('tblinvoices', 'total', array("id" => $invoiceid)));
 		$order_amount = $orderData['total'];
 
-		if( $data->spCode	 == '000' && ($order_amount == $txnAmount))
+		//if( $data->spCode	 == '000' && ($order_amount == $txnAmount))
+		if( $data->spCode	 == '000')	
 		{
 			 $status = 'success';
 		}	
@@ -75,7 +76,7 @@
 		
 		$invoiceid = checkCbInvoiceID($invoiceid,$GATEWAY["name"]); # Checks invoice ID is a valid invoice number or ends processing
 
-        $orderStatus = mysql_fetch_assoc(select_query('tblinvoices', 'status', array("id" => $invoiceid)));        
+                $orderStatus = mysql_fetch_assoc(select_query('tblinvoices', 'status', array("id" => $invoiceid)));        
 		if($orderStatus['status'] == "Paid")
 		{
 		    logTransaction($GATEWAY["name"],  array("Gateway Response" => $_POST, "Validation Response" => json_decode($results, true), "Response" => "Already Paid"), "Successful"); # Save to Gateway Log: name, data array, status
