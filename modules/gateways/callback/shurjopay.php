@@ -60,7 +60,12 @@
 		$txnAmount = $data->txnAmount;
 		$sp_payment_option = $data->paymentOption;
 
-		$orderData = mysql_fetch_assoc(select_query('tblinvoices', 'total', array("id" => $invoiceid)));
+        $orderData = mysql_fetch_assoc(select_query('tblinvoices', 'total', array("id" => $invoiceid)));
+		
+
+         $txnAmount = $orderData['total'];
+	
+
 		$order_amount = $orderData['total'];
 
 		//if( $data->spCode	 == '000' && ($order_amount == $txnAmount))
@@ -92,14 +97,14 @@
 			$fee = 0;
 		    addInvoicePayment($invoiceid, $transactionId, $txnAmount, $fee, $gatewaymodule);
 		    logTransaction($GATEWAY["name"], $_POST, "Successful"); # Save to Gateway Log: name, data array, status		 
-	        header("Location: ".$systemurl."/viewinvoice.php?id=".$invoiceid); /* Redirect browser */	  
+	        header("Location: ".$systemurl."viewinvoice.php?id=".$invoiceid); /* Redirect browser */	  
 		    exit();
 		    
 		} 
 		else 
 		{
 		    logTransaction($GATEWAY["name"], $_POST, "Unsuccessful"); # Save to Gateway Log: name, data array, status    
-	        header("Location: ".$systemurl."/viewinvoice.php?id=".$invoiceid); /* Redirect browser */	 
+	        header("Location: ".$systemurl."viewinvoice.php?id=".$invoiceid); /* Redirect browser */	 
 		    exit();
 		}
 
@@ -107,7 +112,7 @@
 	else
 	{
 			logTransaction($GATEWAY["name"], $_POST, "Unsuccessful"); # Save to Gateway Log: name, data array, status
-	        header("Location: ".$systemurl."/clientarea.php?action=services"); /* Redirect browser */
+	        header("Location: ".$systemurl."clientarea.php?action=services"); /* Redirect browser */
 	    	exit();
 	}
 
